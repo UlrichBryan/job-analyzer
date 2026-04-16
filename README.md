@@ -138,6 +138,6 @@ Projet réalisé par **Ulrich Bryan**
 
 ---
 
-## 📜 Licence
+## Licence
 
  usage éducatif
