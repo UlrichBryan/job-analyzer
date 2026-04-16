@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Job Analyzer</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+<h1>Job Analyzer</h1>
+
+<form method="POST" class="search-form">
+
+    <input type="text" name="search" placeholder="Rechercher..." value="{{ search }}">
+    <button type="submit" name="action" value="search">Rechercher</button>
+
+    <select name="sector">
+        <option value="">Tous les secteurs</option>
+        <option>Informatique</option>
+        <option>Ingénierie</option>
+        <option>Marketing</option>
+        <option>Finance</option>
+        <option>Design</option>
+        <option>Autres</option>
+    </select>
+
+    <button type="submit" name="action" value="filter">Filtrer</button>
+
+</form>
+
+<a href="/export">
+    <button>Télécharger en Excel</button>
+</a>
+
+<table class="jobs-table">
+    <thead>
+        <tr>
+            <th>Titre</th>
+            <th>Entreprise</th>
+            <th>Localisation</th>
+        </tr>
+    </thead>
+
+    <tbody>
+        {% for job in jobs %}
+        <tr>
+            <td>{{ job[1] }}</td>
+            <td>{{ job[2] }}</td>
+            <td>{{ job[3] }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+<h2>Top 5 des villes</h2>
+<ul class="stats">
+{% for city, count in stats.items() %}
+    <li>{{ city }} : {{ count }}</li>
+{% endfor %}
+</ul>
+
+<div class="charts">
+    <div class="chart-box">
+        <h2>Offres par ville</h2>
+        <canvas id="myChart"></canvas>
+    </div>
+
+    <div class="chart-box">
+        <h2>Répartition par secteur</h2>
+        <canvas id="sectorChart"></canvas>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+    const labels = JSON.parse('{{ labels | tojson | safe }}');
+    const data = JSON.parse('{{ values | tojson | safe }}');
+
+    new Chart(document.getElementById('myChart'), {
+        type: 'bar',
+        data: {
+            labels: labels,
+            datasets: [{ data: data }]
+        }
+    });
+
+    const sectorLabels = JSON.parse('{{ sector_labels | tojson | safe }}');
+    const sectorData = JSON.parse('{{ sector_values | tojson | safe }}');
+
+    new Chart(document.getElementById('sectorChart'), {
+        type: 'pie',
+        data: {
+            labels: sectorLabels,
+            datasets: [{ data: sectorData }]
+        }
+    });
+</script>
+
+</body>
+</html>
