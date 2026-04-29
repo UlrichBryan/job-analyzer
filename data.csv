@@ -1,0 +1,4 @@
+id,title,company,location,job_type,salary,date_posted,description,link
+1,Python Developer,TechCorp,Paris,Full-time,50000,2024-01-01,Dev job,link1
+2,Data Analyst,DataCorp,Lyon,Full-time,45000,2024-01-02,Data job,link2
+3,Software Engineer,SoftInc,Marseille,Full-time,55000,2024-01-03,Software job,link3
